@@ -1,11 +1,12 @@
 class Solution:
     def getSum(self, a: int, b: int) -> int:
-
+        x = 0xffffffff
+        a, b = a & x, b & x
         while b != 0:
-            nextBit = (a & b) << 1 #判断当前是否还有有效进位
+            nextBit = (a & b) << 1 & x #判断当前是否还有有效进位
             a = a ^ b #计算当前无进位的情况
             b = nextBit
-        return a if a <= 0x7fffffff else  a - (1 << 32)
+        return a if a <= 0x7fffffff else  ~(a ^ x)
     #10100 = 16 + 4 n=a⊕b
     #10001 = 16 + 1 c= a&b << 1
     #00101
